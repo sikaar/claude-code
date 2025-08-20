@@ -1,0 +1,24 @@
+{
+  "name": "claude-code-proxy",
+  "version": "1.0.0",
+  "description": "Proxy server to use Claude Code with custom API endpoints and bearer token authentication",
+  "main": "claude-proxy-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node claude-proxy-server.js",
+    "dev": "node --watch claude-proxy-server.js",
+    "install-deps": "npm install express http-proxy-middleware cors dotenv"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "bin": {
+    "claude-proxy": "./claude-proxy-server.js"
+  },
+  "keywords": ["claude", "anthropic", "proxy", "bearer-token", "api"],
+  "author": "Claude Code Proxy",
+  "license": "MIT"
+}

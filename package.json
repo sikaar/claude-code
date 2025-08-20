@@ -1,0 +1,22 @@
+{
+  "name": "claude-code-custom-endpoint",
+  "version": "1.0.0",
+  "description": "Run Claude Code with custom API endpoints and bearer token authentication",
+  "type": "module",
+  "main": "basic-proxy.js",
+  "scripts": {
+    "start": "node basic-proxy.js",
+    "proxy": "node basic-proxy.js",
+    "claude": "./claude-with-proxy.sh",
+    "test": "node test-proxy.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "http-proxy-middleware": "^3.0.5"
+  },
+  "keywords": ["claude", "anthropic", "proxy", "bearer-token", "api"],
+  "author": "Claude Code Custom Endpoint",
+  "license": "MIT"
+}

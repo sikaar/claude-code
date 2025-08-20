@@ -1,0 +1,18 @@
+{
+  "name": "claude-code-bearer-examples",
+  "version": "1.0.0",
+  "description": "Bearer token authentication examples for Claude Code",
+  "scripts": {
+    "build": "tsc bearer.ts",
+    "start": "node bearer.js",
+    "dev": "ts-node bearer.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}

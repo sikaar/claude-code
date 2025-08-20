@@ -1,0 +1,42 @@
+# Environment variables - never commit these!
+.env
+.env.*
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Runtime files
+*.pid
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Cache directories
+.cache/
+.tmp/
+
+# Build artifacts
+dist/
+build/
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Test files (keep examples)
+test-*.js
+
+# Claude Code specific
+.claude/settings-backup.json
+.claude/settings-proxy.json

@@ -1,41 +1,182 @@
-# Claude Code
+# Claude Code Custom Endpoint Integration
 
-![](https://img.shields.io/badge/Node.js-18%2B-brightgreen?style=flat-square) [![npm]](https://www.npmjs.com/package/@anthropic-ai/claude-code)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)]()
 
-[npm]: https://img.shields.io/npm/v/@anthropic-ai/claude-code.svg?style=flat-square
+**Run Claude Code CLI with custom API endpoints and bearer token authentication**
 
-Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows -- all through natural language commands. Use it in your terminal, IDE, or tag @claude on Github.
-
-**Learn more in the [official documentation](https://docs.anthropic.com/en/docs/claude-code/overview)**.
+This project enables [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code/overview) to work with custom enterprise API endpoints (like Azure API Management) that use bearer token authentication, while preserving all Claude Code functionality including tools and agents.
 
 <img src="./demo.gif" />
 
-## Get started
+---
 
-1. Install Claude Code:
+## 🎯 **Quick Start**
 
-```sh
-npm install -g @anthropic-ai/claude-code
+```bash
+# 1. Configure your credentials
+cp .env.example .env
+# Edit .env with your API endpoint and bearer token
+
+# 2. Install dependencies
+npm install
+
+# 3. Use with your custom endpoint
+./claude-mode-switcher.sh proxy --print "Hello from custom endpoint!"
+
+# 4. Switch back to normal Claude Code anytime
+./claude-mode-switcher.sh normal --print "Hello from Anthropic API!"
 ```
 
-2. Navigate to your project directory and run `claude`.
+## ✨ **Features**
 
-## Reporting Bugs
+- 🔄 **Transparent Proxy** - Seamlessly route Claude Code through custom endpoints
+- 🔐 **Authentication Translation** - Converts Bearer tokens to api-key headers
+- 🛠️ **Full Tool Support** - All Claude Code tools work (Bash, file ops, 40+ agents)
+- 🔀 **Smart Mode Switching** - Easy switching between custom and standard endpoints
+- 📊 **Debug Monitoring** - Real-time request/response logging
+- 🏢 **Enterprise Ready** - Certificate support, proper error handling
+- ⚡ **Zero Config Switch** - No manual settings file management
 
-We welcome your feedback. Use the `/bug` command to report issues directly within Claude Code, or file a [GitHub issue](https://github.com/anthropics/claude-code/issues).
+## 🚀 **Use Cases**
 
-## Data collection, usage, and retention
+- **Enterprise Integration** - Use Claude Code with Azure API Management
+- **Custom Authentication** - Work with bearer token or api-key based endpoints
+- **Development/Staging** - Switch between different API environments
+- **Compliance** - Route through approved enterprise endpoints
+- **Cost Management** - Use custom billing/monitoring endpoints
 
-When you use Claude Code, we collect feedback, which includes usage data (such as code acceptance or rejections), associated conversation data, and user feedback submitted via the `/bug` command.
+## 📖 **Documentation**
 
-### How we use your data
+- **[Quick Setup Guide](README-CUSTOM-ENDPOINT.md)** - Get started in 5 minutes
+- **[Complete Documentation](PROJECT_DOCUMENTATION.md)** - Comprehensive technical guide
+- **[Bearer Token Examples](examples/BEARER_TOKEN_SETUP.md)** - Python/TypeScript examples
 
-We may use feedback to improve our products and services, but we will not train generative models using your feedback from Claude Code. Given their potentially sensitive nature, we store user feedback transcripts for only 30 days.
+## 🏗️ **Architecture**
 
-If you choose to send us feedback about Claude Code, such as transcripts of your usage, Anthropic may use that feedback to debug related issues and improve Claude Code's functionality (e.g., to reduce the risk of similar bugs occurring in the future).
+```
+Claude Code CLI → Proxy Server → Custom API Endpoint
+     ↓                ↓              ↓
+Standard Format → Translation → Custom Format
+```
 
-### Privacy safeguards
+**Authentication Flow:**
+```
+Claude Code: Authorization: Bearer xyz
+     ↓
+Proxy Server: api-key: xyz  
+     ↓
+Custom Endpoint: ✅ Success
+```
 
-We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
+## 📁 **Key Files**
 
-For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+```
+├── claude-mode-switcher.sh      # 🌟 Smart mode switching (recommended)
+├── basic-proxy.js               # 🌟 Working proxy server
+├── .env.example                 # Configuration template
+├── package.json                 # Dependencies and scripts
+├── 
+├── Documentation/
+├── ├── README-CUSTOM-ENDPOINT.md    # Quick start guide
+├── ├── PROJECT_DOCUMENTATION.md     # Complete technical docs
+├── 
+├── Examples/
+└── └── examples/
+    ├── bearer.py                # Python example with .env
+    ├── bearer.ts                # TypeScript example
+    └── BEARER_TOKEN_SETUP.md    # Examples documentation
+```
+
+## 🎮 **Usage Examples**
+
+### **Mode Switching (Recommended)**
+```bash
+# Custom endpoint mode
+./claude-mode-switcher.sh proxy --print "List all available agents"
+
+# Standard Anthropic API  
+./claude-mode-switcher.sh normal --print "List all available agents"
+
+# Check current mode
+./claude-mode-switcher.sh status
+```
+
+### **Manual Mode**
+```bash
+# Terminal 1: Start proxy
+npm start
+
+# Terminal 2: Use Claude Code  
+export ANTHROPIC_BASE_URL=http://localhost:3001
+export ANTHROPIC_API_KEY=dummy-key-for-proxy
+npx @anthropic-ai/claude-code
+```
+
+## ⚙️ **Configuration**
+
+Create `.env` file with your settings:
+```bash
+# Your custom API endpoint
+CLAUDE_API_URL=https://your-api-endpoint.com/path
+
+# Your bearer token (sent as api-key header)  
+CLAUDE_BEARER_TOKEN=your_bearer_token_here
+
+# API version compatibility
+CLAUDE_API_VERSION=vertex-2023-10-16
+
+# Proxy settings
+PROXY_PORT=3001
+DEBUG=false
+```
+
+## 🧪 **Testing & Verification**
+
+```bash
+# Health check
+curl http://localhost:3001/health
+
+# Debug mode (see all requests)
+DEBUG=true npm start
+
+# Verify traffic routing
+./claude-mode-switcher.sh proxy --print "test traffic routing"
+# Look for: "🔄 Proxying to: https://your-endpoint.com"
+```
+
+## 🔧 **Troubleshooting**
+
+| Issue | Solution |
+|-------|----------|
+| Port already in use | `pkill -f basic-proxy.js` |
+| Missing bearer token | Check `.env` file configuration |
+| Certificate errors | Verify `NODE_EXTRA_CA_CERTS` path |
+| API 400 errors | Enable debug mode to see request details |
+| Missing tools | Use proxy mode with proper settings |
+
+## 🤝 **Contributing**
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## 📄 **License**
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 **Acknowledgments**
+
+- [Anthropic](https://www.anthropic.com) for Claude Code CLI
+- [Azure API Management](https://azure.microsoft.com/products/api-management) for enterprise endpoint capabilities
+
+---
+
+**⚡ Ready to get started?** Run `./claude-mode-switcher.sh proxy --print "Hello from custom endpoint!"` 
+
+**📚 Need help?** Check out the [complete documentation](PROJECT_DOCUMENTATION.md)
+
+**🐛 Found an issue?** [Open an issue](https://github.com/sikaar/claude-code/issues) or contribute a fix!
